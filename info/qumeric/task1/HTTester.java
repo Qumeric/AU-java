@@ -18,7 +18,6 @@ public class HTTester {
         ht.remove(key);
         System.out.format("Ht contains key after removing: %b\n", ht.contains(key));
         System.out.format("Value of key after removing: %s\n", ht.get(key));
-
     }
 }
 

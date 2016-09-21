@@ -7,13 +7,21 @@ import javafx.util.Pair;
  */
 
 
+class Element {
+    String key;
+    String value;
+    boolean is_deleted = false;
+    Element(String key, String value) {
+        this.key = key;
+        this.value = value;
+    }
+}
 
 public class HashTable {
-    /**
-     * Number of keys
-     */
-    public static final int default_capacity = 256;
-    private int size, capacity;
+    /** Number of keys */
+    public static final int DEFAULT_CAPACITY = 256;
+    private int size;
+    private int capacity;
     private String[]  key_storage;
     private String[]  value_storage;
     private boolean[] is_deleted;
@@ -25,8 +33,9 @@ public class HashTable {
         value_storage = new String[capacity];
         is_deleted = new boolean[capacity];
     }
+
     public HashTable() {
-        this(default_capacity);
+        this(DEFAULT_CAPACITY);
     }
 
     private int hash(String s) {
@@ -41,10 +50,10 @@ public class HashTable {
     }
 
     /**
-     * Checks if the given key is containted in the hash table
+     * Checks if the given key is contained in the hash table
      *
      * @param key The key
-     * @return Whether the key contains in the hash table or not
+     * @return Whether the key is contained in the hash table or not
      */
     public boolean contains(String key) {
         int hash = this.hash(key);
@@ -66,17 +75,17 @@ public class HashTable {
     public String get(String key) {
         int hash = this.hash(key);
         int i = hash;
-        Integer first_deleted = null;
+        Integer firstDeleted = null;
         do {
-            if (is_deleted[i] && first_deleted == null)
-                first_deleted = i;
+            if (is_deleted[i] && firstDeleted == null)
+                firstDeleted = i;
             if (key.equals(key_storage[i])) {
-                if (first_deleted != null) {
-                    key_storage[first_deleted] = key_storage[i];
-                    value_storage[first_deleted] = value_storage[i];
+                if (firstDeleted != null) {
+                    key_storage[firstDeleted] = key_storage[i];
+                    value_storage[firstDeleted] = value_storage[i];
                     key_storage[i] = null;
                     value_storage[i] = null;
-                    return value_storage[first_deleted];
+                    return value_storage[firstDeleted];
                 } else {
                     return value_storage[i];
                 }
@@ -149,7 +158,8 @@ public class HashTable {
         this.size = 0;
         for (int i = 0; i < this.capacity; i++) {
             is_deleted[i] = false;
-            key_storage[i] = value_storage[i] = null;
+            key_storage[i] = null;
+            value_storage[i] = null;
         }
     }
 }
