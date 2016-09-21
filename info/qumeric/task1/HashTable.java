@@ -1,25 +1,15 @@
 package info.qumeric.task1;
-import javafx.util.Pair;
 
 /**
- * @author Valery Cherepanov <qumeric@gmail.com>
+ * @author Valery Cherepanov <qumidium@gmail.com>
  * @version 1.0
  */
 
 
-class Element {
-    String key;
-    String value;
-    boolean is_deleted = false;
-    Element(String key, String value) {
-        this.key = key;
-        this.value = value;
-    }
-}
 
 public class HashTable {
     /** Number of keys */
-    public static final int DEFAULT_CAPACITY = 256;
+    private static final int DEFAULT_CAPACITY = 256;
     private int size;
     private int capacity;
     private String[]  key_storage;
@@ -144,6 +134,7 @@ public class HashTable {
                 is_deleted[i] = true;
                 String old_value = value_storage[i];
                 key_storage[i] = value_storage[i] = null;
+                this.size--;
                 return old_value;
             }
             i = (i + 1) % this.capacity;
