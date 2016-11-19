@@ -32,7 +32,10 @@ public class Zip {
             ZipEntry entry = entries.nextElement();
             if (regexp.matcher(entry.getName()).matches()) {
               InputStream is = zipFile.getInputStream(entry);
-              String filePath = file.toString() + File.separator + entry.getName();
+
+              String filePath = path.toString() + File.separator + entry.getName();
+              System.out.println("Extract " + entry.getName() + " from " + zipFile.getName() + " to " + filePath);
+
               BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
 
               byte[] bytesIn = new byte[BUFFER_SIZE];
