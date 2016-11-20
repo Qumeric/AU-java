@@ -1,4 +1,4 @@
-package info.qumeric.hw;
+package sp;
 
 import java.io.*;
 import java.nio.file.DirectoryStream;

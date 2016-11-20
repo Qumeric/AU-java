@@ -1,4 +1,4 @@
-package info.qumeric.hw.task1;
+package sp.task1;
 
 
 public class HashTable {
