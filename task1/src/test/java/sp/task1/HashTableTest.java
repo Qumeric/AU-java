@@ -1,4 +1,4 @@
-package sp.task1;
+package info.qumeric.hw.task1;
 
 import static org.junit.Assert.*;
 
