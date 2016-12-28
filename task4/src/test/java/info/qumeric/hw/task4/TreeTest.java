@@ -23,6 +23,4 @@ public class TreeTest {
     assertTrue(tree.contains(3));
     assertEquals(3, tree.size());
   }
-
-
 }

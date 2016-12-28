@@ -25,7 +25,6 @@ public class MaybeTest {
 
   @Test
   public void map() throws Exception {
-    assertEquals(new Integer(4), just1.map(x -> x*2).map(x -> x*2).get());
+    assertEquals(new Integer(4), just1.map(x -> x * 2).map(x -> x * 2).get());
   }
-
 }

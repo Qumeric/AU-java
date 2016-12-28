@@ -1,10 +1,15 @@
 package info.qumeric.hw.task4;
 
-
 import java.util.function.Function;
 
+/**
+ * Maybe may contain one value or contain nothing. Useful for calculations which may fail
+ */
 public class Maybe<T> {
 
+  /**
+   * Indicates attempt to evaluate some operation which is supported only for non-empty Maybe on empty Maybe
+   */
   public static class EmptyException extends IllegalStateException {}
 
   private T value = null;
@@ -45,7 +50,6 @@ public class Maybe<T> {
     if (value == null) {
       throw new EmptyException();
     }
-
     return value;
   }
 
@@ -64,11 +68,7 @@ public class Maybe<T> {
    * @return A new maybe with function calculated by mapper or {@link Maybe<T>.nothing()}
    */
   public <U> Maybe<U> map(Function<T, U> mapper) {
-    try {
-      return Maybe.just(mapper.apply(get()));
-    } catch (EmptyException e) {
-      return Maybe.nothing();
-    }
+    return value == null ? Maybe.nothing() : Maybe.just(mapper.apply(value));
   }
 }
 

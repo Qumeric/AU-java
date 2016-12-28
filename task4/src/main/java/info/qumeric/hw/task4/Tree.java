@@ -66,7 +66,7 @@ public class Tree<T extends Comparable<T>> {
 
 
   /**
-   * @return number of nodes in this tree.
+   * Get number of nodes in this tree.
    */
   public int size() {
     return size;
