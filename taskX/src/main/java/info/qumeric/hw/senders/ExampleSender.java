@@ -1,6 +1,7 @@
 package info.qumeric.hw.senders;
 
 import info.qumeric.hw.Coordinator;
+import info.qumeric.hw.Message;
 
 public class ExampleSender implements BroadcastSender {
     private static final String TOPIC = "Simple";
@@ -18,6 +19,7 @@ public class ExampleSender implements BroadcastSender {
 
     @Override
     public void run() {
-
+        Message message = new Message("Simple", "An example message from ExampleSender");
+        coordinator.newMessage(message);
     }
 }
