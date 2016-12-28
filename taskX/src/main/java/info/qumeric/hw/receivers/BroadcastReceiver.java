@@ -13,5 +13,8 @@ public interface BroadcastReceiver {
   /**
    * Called by coordinator and indicates receiving of a message
    */
-  void recieve(Message message);
+  default void recieve(Message message) {
+    System.out.println(this.getClass().toString() + " have received the message:");
+    System.out.println(message);
+  }
 }

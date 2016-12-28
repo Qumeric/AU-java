@@ -16,4 +16,9 @@ public class Message {
     public String getText() {
         return text;
     }
+
+    @Override
+    public String toString() {
+        return "Topic: " + topic + "\n" + "Text: " + text;
+    }
 }

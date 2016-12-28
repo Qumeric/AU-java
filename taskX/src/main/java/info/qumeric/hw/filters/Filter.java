@@ -13,5 +13,7 @@ public interface Filter {
     /**
      * Check if given message can pass
      */
-    boolean filter(Message message);
+    default boolean filter(Message message) {
+        return getTopics().contains(message.getTopic());
+    }
 }
