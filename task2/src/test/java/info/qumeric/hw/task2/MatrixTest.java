@@ -51,7 +51,7 @@ public class MatrixTest {
 
     @Test
     public void sortByColumns() throws Exception {
-        matrix3 = new Matrix(this.matrix3);
+        matrix3 = new Matrix(this.matrix3.asArray());
         matrix3.sortByColumns();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {

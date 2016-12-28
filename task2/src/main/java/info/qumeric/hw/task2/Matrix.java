@@ -3,7 +3,9 @@ package info.qumeric.hw.task2;
 
 /**
  * @author Valery Cherepanov <qumidium@gmail.com>
- * @version 1.0
+ * @version 1.0.1
+ *
+ * Class for n x n matrix representation where n is odd number
  */
 public class Matrix {
     /**
@@ -37,12 +39,12 @@ public class Matrix {
         int rowsCount = matrix.length;
 
         if (rowsCount % 2 == 0 || rowsCount <= 0) {
-            throw new IllegalArgumentException("n should be an odd positive integer.");
+            throw new IllegalArgumentException("Size of matrix should be positive and odd.");
         }
 
         // Sanity check
         if (matrix[0].length != rowsCount) {
-            throw new IllegalArgumentException("Given list should has n rows and n column.");
+            throw new IllegalArgumentException("Given matrix should have n rows and n columns.");
         }
 
         this.n = rowsCount;
@@ -50,13 +52,10 @@ public class Matrix {
     }
 
     /**
-     * Copy constructor
-     *
-     * @param matrix another instance of Matrix
+     * Get two dimensional array representation
      */
-    public Matrix(Matrix matrix) {
-        this.n = matrix.n;
-        this.matrix = matrix.matrix;
+    public int[][] asArray() {
+        return matrix;
     }
 
     private void swapColumns(int a, int b) {
@@ -86,10 +85,9 @@ public class Matrix {
     /**
      * Return element by given row and column.
      *
-     * @param row Row number
-     * @param col Column number
+     * @param row row number
+     * @param col column number
      */
-
     public int get(int row, int col) {
         return matrix[row][col];
     }
@@ -105,7 +103,7 @@ public class Matrix {
         int stepSize = 1;
 
         // After every other straight segment we should increase length of the next one
-        Boolean updateSize = false;
+        boolean updateSize = false;
 
         // First element is direction by x-axis (columns), second is direction by y-axis (rows)
         int[][] directions = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
