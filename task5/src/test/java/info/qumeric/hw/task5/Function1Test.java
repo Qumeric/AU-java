@@ -1,5 +1,6 @@
 package info.qumeric.hw.task5;
 
+import info.qumeric.hw.task5.functions.NegateInteger;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -8,12 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class Function1Test {
   @Test
   public void apply() throws Exception {
-    assertEquals(-1, new NegateInteger().apply(1));
-  }
-
-  @Test
-  public void bind() throws Exception {
-    assertEquals(3*3, new SquareInteger().bind(3).apply(4));
+    assertEquals(-1, (long) new NegateInteger().apply(1));
   }
 
   @Test

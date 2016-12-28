@@ -4,9 +4,13 @@ package info.qumeric.hw.task5;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class Collections {
 
+  /**
+   * Apply function <code>f</code> to each argument of <code>c</code>
+   **/
   public static List<Object> map(Function1 f, Iterable<Object> c) {
     List<Object> list = new ArrayList<>();
     for (Object elem: c) {
@@ -15,6 +19,9 @@ public class Collections {
     return list;
   }
 
+  /**
+   * Get list of elements of <code>c</code> which meet condition <code>p</code>
+   **/
   public static List<Object> filter(Predicate p, Iterable<Object> c) {
     List<Object> list = new ArrayList<>();
     for (Object elem: c) {
@@ -25,6 +32,10 @@ public class Collections {
     return list;
   }
 
+  /**
+   * Get elements of c from 0 to position of first element which doesn't meet condition <code>p</code>
+   * (not inclusive from right)
+   **/
   public static List<Object> takeWhile(Predicate p, Iterable<Object> c) {
     List<Object> list = new ArrayList<>();
     for (Object elem: c) {
@@ -37,26 +48,22 @@ public class Collections {
     return list;
   }
 
+  /**
+   * Same as <code>takeWhile</code> but in this case check negation of <code>p</code> instead of <code>p</code> itself
+   **/
   public static List<Object> takeUnless(Predicate p, Iterable<Object> c) {
     return takeWhile(Predicate.not(p), c);
   }
 
+  /**
+   * Left fold
+   * @see <a href="https://en.wikipedia.org/wiki/Fold_(higher-order_function)">Fold (Wikipedia)</a>
+   */
   public static Object foldl(Function2 f, Object acc, Iterable<Object> c) {
-    return foldlRec(f, acc, c.iterator());
-  }
-
-  private static Object foldlRec(Function2 f, Object acc, Iterator<Object> it) {
-    if (it.hasNext()) {
-      return foldlRec(f, f.apply(acc, it.next()), it);
-    } else {
-      return acc;
+    Iterator<Object> it = c.iterator();
+    while (it.hasNext()) {
+      acc = f.apply(acc, it.next());
     }
+    return acc;
   }
 }
-
-/*map — принимает f и a, применяет f к каждому элементу ai и возвращает список [f(a1), ..., f(an)]
-        filter — принимает p и a, возвращает список, содержащий элементы ai, на которых p(ai) == true
-        takeWhile — принимает p и a, возвращает список с началом a до первого элемента ai, для которого p(ai) == false
-        takeUnless — то же, что и takeWhile, только для p(ai) == true
-        foldr / foldl — принимает функцию двух аргументов, начальное значение и коллекцию, работает так: https://ru.wikipedia.org/wiki/%D0%A1%D0%B2%D1%91%D1%80%D1%82%D0%BA%D0%B0_%D1%81%D0%BF%D0%B8%D1%81%D0%BA%D0%B0
-        a – Iterable*/

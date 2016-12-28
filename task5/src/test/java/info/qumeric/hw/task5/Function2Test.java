@@ -1,5 +1,8 @@
 package info.qumeric.hw.task5;
 
+import info.qumeric.hw.task5.functions.AddInteger;
+import info.qumeric.hw.task5.functions.NegateInteger;
+import info.qumeric.hw.task5.functions.SubtractInteger;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

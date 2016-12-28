@@ -53,29 +53,3 @@ abstract public class Predicate {
   }
 }
 
-class IsNull extends Predicate {
-  @Override
-  protected boolean calculate(Object cond) {
-    return cond == null;
-  }
-}
-
-class IsInteger extends Predicate {
-  @Override
-  protected boolean calculate(Object cond) {
-    return cond instanceof Integer;
-  }
-}
-
-class IntegerMoreThan extends Predicate {
-  private Integer what;
-
-  IntegerMoreThan(Integer what) {
-    this.what = what;
-  }
-
-  @Override
-  protected boolean calculate(Object cond) {
-    return (Integer)cond > what;
-  }
-}

@@ -1,5 +1,7 @@
 package info.qumeric.hw.task5;
 
+import info.qumeric.hw.task5.predicates.IsInteger;
+import info.qumeric.hw.task5.predicates.IsNull;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;

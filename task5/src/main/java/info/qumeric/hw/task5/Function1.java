@@ -8,49 +8,27 @@ import java.util.List;
  */
 public abstract class Function1 {
 
-  protected Object arg = null;
-
-  protected List<Function1> chain = new ArrayList<>();
-
   /**
    * You have to implement only this to create a proper <code>Function1</code> implementation
    */
-  abstract protected Object calculate(Object x);
-
-  public final Object apply(Object x) {
-    if (arg != null)
-      x = arg;
-    Object val = calculate(x);
-    for (Function1 f: chain) {
-      val = f.calculate(val);
-    }
-    return val;
-  }
+  abstract protected Object apply(Object x);
 
   public final Object apply() {
     return apply(null);
   }
 
-  public Function1 bind(Object x) {
-    arg = x;
-    return this;
-  }
-
+  /**
+   * Composition of functions
+   * @param g function to apply second
+   */
   public Function1 compose (Function1 g) {
-    chain.add(g);
-    return this;
+    return new Function1() {
+      @Override
+      protected Object apply(Object x) {
+        return g.apply(Function1.this.apply(x));
+      }
+    };
   }
 }
 
 
-class NegateInteger extends Function1 {
-  protected Integer calculate(Object x) {
-    return -(Integer)x;
-  }
-}
-
-class SquareInteger extends Function1 {
-  protected Integer calculate(Object x) {
-    return (Integer)x * (Integer)x;
-  }
-}
