@@ -7,20 +7,20 @@ import java.util.*;
  * Thereby most operations work in linear time.
  * @param <E> type of stored objects
  */
-public class MyTreeSetImpl<E extends Comparable<E>> extends AbstractSet<E> implements MyTreeSet<E> {
+public class MyTreeSetImpl<E extends Comparable<? super E>> extends AbstractSet<E> implements MyTreeSet<E> {
   private Comparator<? super E> comparator = Comparator.naturalOrder();
   private Node root = null;
   private Node first = null;
   private Node last = null;
   private int size = 0;
 
-  MyTreeSetImpl() {
+  public MyTreeSetImpl() {
   }
 
   /**
    * Constructor with custom comparator.
    */
-  MyTreeSetImpl(Comparator<? super E> cmp) {
+  public MyTreeSetImpl(Comparator<? super E> cmp) {
     comparator = cmp;
     last = null;
   }
@@ -33,22 +33,15 @@ public class MyTreeSetImpl<E extends Comparable<E>> extends AbstractSet<E> imple
   }
 
   /**
-   * Reverse elements in set. Works in place and returns this (just for sake of compatibility with {@link MyTreeSet})
+   * Reverse elements in set.
+   * @return new <code>MyTreeSet</code> with reversed order
    */
   public MyTreeSet<E> descendingSet() {
-    comparator = Collections.reverseOrder(comparator);
-    swapRec(root);
-    return this;
-  }
-
-  private void swapRec(Node node) {
-    if (node == null)
-      return;
-    Node tmp = node.right;
-    node.right = node.left;
-    node.left = tmp;
-    swapRec(node.left);
-    swapRec(node.right);
+    MyTreeSet<E> dSet = new MyTreeSetImpl<E>(Collections.reverseOrder(comparator));
+    for (E e: this) {
+      dSet.add(e);
+    }
+    return dSet;
   }
 
   /**
@@ -65,34 +58,34 @@ public class MyTreeSetImpl<E extends Comparable<E>> extends AbstractSet<E> imple
    * @return true if element was added, false otherwise (duplicate elements aren't allowed)
    */
   public boolean add(E e) {
-    Node node = new Node(e);
     if (root == null) {
-      root = node;
+      root = new Node(e);
       first = last = root;
       size++;
       return true;
-    }
-    if (comparator.compare(first.value, e) > 0) {
-      first = node;
-    } else if (comparator.compare(last.value, e) < 0) {
-      last = node;
     }
     Node current = root;
     while (true) {
       int compareResult = comparator.compare(current.value, e);
       if (compareResult < 0) {
         if (current.right == null) {
-          node.parent = current;
-          current.right = node;
+          current.right = new Node(e);
+          current.right.parent = current;
           size++;
+          if (comparator.compare(last.value, e) < 0) {
+            last = current.right;
+          }
           return true;
         }
         current = current.right;
       } else if (compareResult > 0) {
         if (current.left == null) {
-          node.parent = current;
-          current.left = node;
+          current.left = new Node(e);
+          current.left.parent = current;
           size++;
+          if (comparator.compare(first.value, e) > 0) {
+            first = current.left;
+          }
           return true;
         }
         current = current.left;
@@ -124,7 +117,7 @@ public class MyTreeSetImpl<E extends Comparable<E>> extends AbstractSet<E> imple
   /** {@link TreeSet#floor(Object)} **/
   public E floor(E e) {
     Iterator<E> it = descendingIterator();
-    while(it.hasNext()) {
+    while (it.hasNext()) {
       E val = it.next();
       if (comparator.compare(e, val) >= 0) {
         return val;
@@ -146,7 +139,7 @@ public class MyTreeSetImpl<E extends Comparable<E>> extends AbstractSet<E> imple
   /** {@link TreeSet#lower(Object)} **/
   public E lower(E e) {
     Iterator<E> it = descendingIterator();
-    while(it.hasNext()) {
+    while (it.hasNext()) {
       E val = it.next();
       if (comparator.compare(e, val) > 0) {
         return val;
@@ -203,9 +196,6 @@ public class MyTreeSetImpl<E extends Comparable<E>> extends AbstractSet<E> imple
     }
 
     MyTreeSetIterator(boolean isReversed) {
-      //if (isReversed) {
-      //  cmp = Collections.reverseOrder(cmp);
-      //}
       this.isReversed = isReversed;
     }
 
@@ -233,7 +223,7 @@ public class MyTreeSetImpl<E extends Comparable<E>> extends AbstractSet<E> imple
         if (!isReversed) {
           if (current.right != null) {
             current = current.right;
-            while(current.left != null) {
+            while (current.left != null) {
               current = current.left;
             }
           } else {
@@ -245,7 +235,7 @@ public class MyTreeSetImpl<E extends Comparable<E>> extends AbstractSet<E> imple
         } else {
           if (current.left != null) {
             current = current.left;
-            while(current.right != null) {
+            while (current.right != null) {
               current = current.right;
             }
           } else {
