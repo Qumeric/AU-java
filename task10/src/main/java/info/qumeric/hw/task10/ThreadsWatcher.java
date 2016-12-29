@@ -2,8 +2,6 @@ package info.qumeric.hw.task10;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -11,15 +9,19 @@ import org.junit.runners.model.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * JUnit rule which allows to watch over threads.
+ * Before starting your thread you should call <code>watch</code> on it.
+ */
 public class ThreadsWatcher implements TestRule {
     private List<Thread> threads = new ArrayList<>();
     private List<Throwable> exceptions = new ArrayList<>();
     private List<Thread> aliveThreads = new ArrayList<>();
     private Class<? extends Throwable> expectedExceptionType = null;
 
-
     /**
      * Checks if there are alive threads after evaluation or if there were any exceptions in threads.
+     *
      * @return new <code>Statement</code> with checking.
      */
     @Override
@@ -28,7 +30,7 @@ public class ThreadsWatcher implements TestRule {
             @Override
             public void evaluate() throws Throwable {
                 base.evaluate();
-                for (Thread t: threads) {
+                for (Thread t : threads) {
                     if (t.isAlive()) {
                         aliveThreads.add(t);
                     }
@@ -48,6 +50,7 @@ public class ThreadsWatcher implements TestRule {
 
     /**
      * <code>expect(cls)</code> should be used instead of @Test(expected=cls) with <code>ThreadsWatcher</code>
+     *
      * @param e class of expected exception
      */
     public void expect(@NotNull Class<? extends Throwable> e) {
@@ -56,6 +59,7 @@ public class ThreadsWatcher implements TestRule {
 
     /**
      * Check if there were some problems with threads
+     *
      * @throws Exception AliveThreadException or InThreadException
      */
     public void check() throws Exception {
@@ -87,12 +91,18 @@ public class ThreadsWatcher implements TestRule {
     }
 
 
+    /**
+     * Thread is alive after execution.
+     */
     public static class AliveThreadException extends Exception {
         AliveThreadException(@Nullable Integer count) {
             super(count + " alive threads");
         }
     }
 
+    /**
+     * Thread had thrown an exception.
+     */
     public static class InThreadException extends Exception {
         InThreadException(@Nullable Integer count) {
             super(count + " uncaught exceptions in threads");
