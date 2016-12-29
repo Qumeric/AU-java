@@ -8,7 +8,8 @@ import java.util.stream.Stream;
 
 public final class FirstPartTasks {
 
-    private FirstPartTasks() {}
+    private FirstPartTasks() {
+    }
 
     // Список названий альбомов
     public static List<String> allNames(Stream<Album> albums) {
@@ -34,55 +35,55 @@ public final class FirstPartTasks {
 
     // Сгруппировать альбомы по артистам
     public static Map<Artist, List<Album>> groupByArtist(Stream<Album> albums) {
-      return albums.collect(Collectors.groupingBy(Album::getArtist));
+        return albums.collect(Collectors.groupingBy(Album::getArtist));
     }
 
     // Сгруппировать альбомы по артистам (в качестве значения вместо объекта 'Album' использовать его имя)
     public static Map<Artist, List<String>> groupByArtistMapName(Stream<Album> albums) {
-      return albums.collect(Collectors.groupingBy(Album::getArtist, Collectors.mapping(Album::getName, Collectors.toList())));
+        return albums.collect(Collectors.groupingBy(Album::getArtist, Collectors.mapping(Album::getName, Collectors.toList())));
     }
 
     // Число повторяющихся альбомов в потоке
     public static long countAlbumDuplicates(Stream<Album> albums) {
-      // probably not optimal
-      return albums.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-              .entrySet().stream().filter(entry -> entry.getValue() > 1).count();
+        // probably not optimal
+        return albums.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream().filter(entry -> entry.getValue() > 1).count();
     }
 
     private static int getMaxRatingFromTrackList(List<Track> tracks) {
-      return tracks.stream().mapToInt(Track::getRating).reduce(0, (a, b) -> a > b ? a : b);
+        return tracks.stream().mapToInt(Track::getRating).reduce(0, (a, b) -> a > b ? a : b);
     }
 
     // Альбом, в котором максимум рейтинга минимален
     // (если в альбоме нет ни одного трека, считать, что максимум рейтинга в нем --- 0)
     public static Optional<Album> minMaxRating(Stream<Album> albums) {
-      return albums.min(Comparator.comparingInt((Album a) -> getMaxRatingFromTrackList(a.getTracks())));
+        return albums.min(Comparator.comparingInt((Album a) -> getMaxRatingFromTrackList(a.getTracks())));
     }
 
     private static int getAverageRatingFromTrackList(List<Track> tracks) {
-      return tracks.stream().mapToInt(Track::getRating).reduce(0, Integer::sum)/tracks.size();
+        return tracks.stream().mapToInt(Track::getRating).reduce(0, Integer::sum) / tracks.size();
     }
 
     // Список альбомов, отсортированный по убыванию среднего рейтинга его треков (0, если треков нет)
     public static List<Album> sortByAverageRating(Stream<Album> albums) {
-      return albums.sorted(Comparator.comparing((Album a) -> getAverageRatingFromTrackList(a.getTracks())).reversed())
-              .collect(Collectors.toList());
+        return albums.sorted(Comparator.comparing((Album a) -> getAverageRatingFromTrackList(a.getTracks())).reversed())
+                .collect(Collectors.toList());
     }
 
     // Произведение всех чисел потока по модулю 'modulo'
     // (все числа от 0 до 10000)
     public static int moduloProduction(IntStream stream, int modulo) {
-      return stream.reduce(1, (a, b) -> (a*b)%modulo);
+        return stream.reduce(1, (a, b) -> (a * b) % modulo);
     }
 
     // Вернуть строку, состояющую из конкатенаций переданного массива, и окруженную строками "<", ">"
     // см. тесты
     public static String joinTo(String... strings) {
-      return Arrays.stream(strings).collect(Collectors.joining(", ", "<", ">"));
+        return Arrays.stream(strings).collect(Collectors.joining(", ", "<", ">"));
     }
 
     // Вернуть поток из объектов класса 'clazz'
     public static <R> Stream<R> filterIsInstance(Stream<?> s, Class<R> clazz) {
-      return s.filter(clazz::isInstance).map(e -> (R) e);
+        return s.filter(clazz::isInstance).map(e -> (R) e);
     }
 }

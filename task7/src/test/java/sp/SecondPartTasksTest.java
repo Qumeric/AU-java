@@ -3,7 +3,9 @@ package sp;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static sp.SecondPartTasks.*;
@@ -12,7 +14,13 @@ public class SecondPartTasksTest {
 
     @Test
     public void testFindQuotes() {
-      // Не очень удобно тестить работу с файлами, поэтому проверил руками, надеюсь этого достаточно
+        List<String> paths = new ArrayList<String>() {{
+           add("empty.txt");
+           add("string.txt");
+        }};
+
+        List<String> matched = SecondPartTasks.findQuotes(paths, "strin");
+        assertEquals(1, matched.size());
     }
 
     @Test

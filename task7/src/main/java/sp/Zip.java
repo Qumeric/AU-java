@@ -13,7 +13,7 @@ import java.util.zip.ZipFile;
 
 /**
  * Find all zip archives by a given path (first line in stdin) and extract all files from these archives which names
- * math a given regular expression (second line in stdin).
+ * matching a given regular expression (second line in stdin).
  */
 public class Zip {
   private final static int BUFFER_SIZE = 4096;
@@ -46,7 +46,7 @@ public class Zip {
               bos.close();
             }
           }
-        } catch (Exception e) {
+        } catch (IOException e) {
           // Do nothing if file isn't a zip archive
         }
       }
