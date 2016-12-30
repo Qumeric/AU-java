@@ -22,18 +22,15 @@ public class Function2Test {
   public void swap() throws Exception {
     assertEquals(negate.apply(subtract.apply(3, 4)), subtract.swap().apply(3, 4));
 
-    Function2 subtract3fromFirst = new SubtractInteger().bind2(3);
-    Function2 subtract3fromSecond = subtract3fromFirst.swap();
-    assertEquals(7, subtract3fromFirst.apply(10, 0));
-    assertEquals(5, subtract3fromSecond.apply(0, 8));
+    Function1 subtract3fromFirst = new SubtractInteger().bind2(3);
+    assertEquals(7, subtract3fromFirst.apply(10));
   }
 
   @Test
   public void bind1() throws Exception {
-    Function2 add10 = add.bind1(10);
-    assertEquals(10, add10.apply(20, 0));
-    assertEquals(20, add10.apply(0, 10));
-    assertEquals(30, add10.apply(0, 20));
+    Function1 add10 = add.bind1(10);
+    assertEquals(20, add10.apply(10));
+    assertEquals(30, add10.apply(20));
   }
 
   @Test

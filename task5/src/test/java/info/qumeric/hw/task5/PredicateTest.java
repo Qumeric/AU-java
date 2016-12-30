@@ -9,8 +9,8 @@ import static org.junit.Assert.assertTrue;
 
 
 public class PredicateTest {
-  final Predicate TRUE = Predicate.ALWAYS_TRUE();
-  final Predicate FALSE = Predicate.ALWAYS_FALSE();
+  final Predicate TRUE = Predicate.alwaysTrue();
+  final Predicate FALSE = Predicate.alwaysFalse();
   final Predicate isNull = new IsNull();
   final Predicate isInteger = new IsInteger();
 

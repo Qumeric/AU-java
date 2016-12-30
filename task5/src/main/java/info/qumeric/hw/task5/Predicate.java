@@ -39,7 +39,7 @@ abstract public class Predicate {
     };
   }
 
-  public static Predicate ALWAYS_TRUE() {
+  public static Predicate alwaysTrue() {
     return new Predicate() {
       @Override
       public boolean calculate(Object cond) {
@@ -48,8 +48,8 @@ abstract public class Predicate {
     };
   }
 
-  public static Predicate ALWAYS_FALSE() {
-    return not(ALWAYS_TRUE());
+  public static Predicate alwaysFalse() {
+    return not(alwaysTrue());
   }
 }
 

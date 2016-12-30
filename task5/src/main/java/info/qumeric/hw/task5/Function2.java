@@ -12,7 +12,7 @@ public abstract class Function2 {
    */
   abstract protected Object apply(Object x, Object y);
 
-  public Function2 compose (Function1 g) {
+  public Function2 compose(Function1 g) {
     return new Function2() {
       @Override
       protected Object apply(Object x, Object y) {
@@ -21,19 +21,19 @@ public abstract class Function2 {
     };
   }
 
-  public Function2 bind1(Object x) {
-    return new Function2() {
+  public Function1 bind1(Object x) {
+    return new Function1() {
       @Override
-      protected Object apply(Object empty, Object y) {
+      protected Object apply(Object y) {
         return Function2.this.apply(x, y);
       }
     };
   }
 
-  public Function2 bind2(Object y) {
-    return new Function2() {
+  public Function1 bind2(Object y) {
+    return new Function1() {
       @Override
-      protected Object apply(Object x, Object empty) {
+      protected Object apply(Object x) {
         return Function2.this.apply(x, y);
       }
     };
