@@ -6,16 +6,16 @@ public class HashTable {
   private static final int DEFAULT_CAPACITY = 256;
   private int size;
   private int capacity;
-  private String[] key_storage;
-  private String[] value_storage;
-  private boolean[] is_deleted;
+  private String[] keyStorage;
+  private String[] valueStorage;
+  private boolean[] isDeleted;
 
   public HashTable(int capacity) {
     this.size = 0;
     this.capacity = capacity;
-    key_storage = new String[capacity];
-    value_storage = new String[capacity];
-    is_deleted = new boolean[capacity];
+    keyStorage = new String[capacity];
+    valueStorage = new String[capacity];
+    isDeleted = new boolean[capacity];
   }
 
   public HashTable() {
@@ -23,7 +23,7 @@ public class HashTable {
   }
 
   private int hash(String s) {
-    return s.hashCode() % this.capacity;
+    return Math.abs(s.hashCode()) % this.capacity;
   }
 
   /**
@@ -43,7 +43,7 @@ public class HashTable {
     int hash = this.hash(key);
     int i = hash;
     do {
-      if (key.equals(key_storage[i]))
+      if (key.equals(keyStorage[i]))
         return true;
       i = (i + 1) % this.capacity;
     } while (i != hash);
@@ -61,17 +61,17 @@ public class HashTable {
     int i = hash;
     Integer firstDeleted = null;
     do {
-      if (is_deleted[i] && firstDeleted == null)
+      if (isDeleted[i] && firstDeleted == null)
         firstDeleted = i;
-      if (key.equals(key_storage[i])) {
+      if (key.equals(keyStorage[i])) {
         if (firstDeleted != null) {
-          key_storage[firstDeleted] = key_storage[i];
-          value_storage[firstDeleted] = value_storage[i];
-          key_storage[i] = null;
-          value_storage[i] = null;
-          return value_storage[firstDeleted];
+          keyStorage[firstDeleted] = keyStorage[i];
+          valueStorage[firstDeleted] = valueStorage[i];
+          keyStorage[i] = null;
+          valueStorage[i] = null;
+          return valueStorage[firstDeleted];
         } else {
-          return value_storage[i];
+          return valueStorage[i];
         }
       }
       i = (i + 1) % this.capacity;
@@ -90,20 +90,20 @@ public class HashTable {
     int hash = this.hash(key);
     int i = hash;
     do {
-      if (is_deleted[i]) {
+      if (isDeleted[i]) {
         i = (i + 1) % this.capacity;
         continue;
       }
-      if (key_storage[i] == null || key_storage[i].isEmpty()) {
+      if (keyStorage[i] == null || keyStorage[i].isEmpty()) {
         this.size++;
-        key_storage[i] = key;
-        value_storage[i] = value;
+        keyStorage[i] = key;
+        valueStorage[i] = value;
         return null;
       }
-      if (key.equals(key_storage[i])) {
-        String old_value = value_storage[i];
-        value_storage[i] = value;
-        return old_value;
+      if (key.equals(keyStorage[i])) {
+        String oldValue = valueStorage[i];
+        valueStorage[i] = value;
+        return oldValue;
       }
       i = (i + 1) % this.capacity;
     } while (i != hash);
@@ -120,16 +120,16 @@ public class HashTable {
     int hash = this.hash(key);
     int i = hash;
     do {
-      if (is_deleted[i]) {
+      if (isDeleted[i]) {
         i = (i + 1) % this.capacity;
         continue;
       }
-      if (key.equals(key_storage[i])) {
-        is_deleted[i] = true;
-        String old_value = value_storage[i];
-        key_storage[i] = value_storage[i] = null;
+      if (key.equals(keyStorage[i])) {
+        isDeleted[i] = true;
+        String oldValue = valueStorage[i];
+        keyStorage[i] = valueStorage[i] = null;
         this.size--;
-        return old_value;
+        return oldValue;
       }
       i = (i + 1) % this.capacity;
     } while (i != hash);
@@ -142,9 +142,9 @@ public class HashTable {
   void clear() {
     this.size = 0;
     for (int i = 0; i < this.capacity; i++) {
-      is_deleted[i] = false;
-      key_storage[i] = null;
-      value_storage[i] = null;
+      isDeleted[i] = false;
+      keyStorage[i] = null;
+      valueStorage[i] = null;
     }
   }
 }
